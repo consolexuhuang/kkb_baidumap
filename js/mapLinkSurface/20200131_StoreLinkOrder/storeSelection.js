@@ -1,0 +1,1 @@
+var storeSelectionList = [{"storeId":"5e339233e4b0e8c8916c2e2e","storeName":"Justin&Julie线上门店","longitude":"121.455338","latitude":"31.229754",circle:1500},]

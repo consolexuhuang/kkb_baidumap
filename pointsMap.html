@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=Mgzr0eGFcynfpVT0XfaPAvEkrlRWyZqX"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+
+    <!--加载鼠标绘制工具-->
+	<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+	<!--加载检索信息窗口-->
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+
+    <!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./public/index.css">
+    
+    <!-- 时间区间控件 -->
+    <!-- <script src="./public/jquer_shijian.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="./public/shijian.css"/> -->
+    <title>JJ Fitness</title>
+</head>
+<body>
+    <div id="allmap"></div>
+    <div id="ruleBox">
+        <div id="r-result">
+            <input type="button" class="btn"  onclick="baiduMapController.methods().openBrthmap();" value="重置出生地"/>
+            <input type="button" class="btn Heatmap"  onclick="baiduMapController.methods().Heatmap();" value="显示热力图"/>
+            <input type="button" class="btn hideStoreName"  onclick="baiduMapController.methods().hideStoreName();" value="隐藏门店名称"/>
+            <input type="button" class="btn clearOverlays"  onclick="baiduMapController.methods().clearOverlays();" value="清除绘制圆"/>
+
+        </div>
+        <div class="dropdown custom">
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                <em>请选择时间区间</em>
+                <i class="caret"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li></li>
+                <li id = "2019-12-02"><a>2019年12月第一周 (12.02~12.08)</a></li>
+                <li id = "2019-12-09"><a>2019年12月第二周 (12.09~12.15)</a></li>
+                <li id = "2020-01-31"><a>2020年01月 (01.31~02.07)</a></li>
+            </ul>
+        </div>
+        <div class="dropdown custom1">
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                <em>请选择门店关联订单列表</em>
+                <i class="caret"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li >
+                    <input class="form-control seach_name" placeholder="请输入搜索内容"/>
+                    <i class="glyphicon glyphicon-search"></i>
+                </li>
+            </ul>
+        </div>
+        <!-- <div class="timeBox">
+            <input type="text" id="inputT" value="" placeholder="开始时间"/>
+            -
+            <input type="text" id="inputE" value="" placeholder="结束时间"/>
+        </div> -->
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+        
+        //初始数据
+        var map = new BMap.Map("allmap");
+
+        var scriptInitStore = document.createElement("script");
+        var scriptInitBrth = document.createElement("script");
+
+        var scriptComponNode = document.createElement("script");
+        var scriptDateComponNode = document.createElement("script");
+
+        var scriptApiNode = document.createElement("script");
+
+        scriptInitStore.setAttribute("src", `./js/mapLinkSurface/StoreLinkBrthMember/ModelSeaPoints.js`);
+        scriptInitBrth.setAttribute("src", `./js/mapLinkSurface/StoreLinkBrthMember/ModelAllStorePoints.js`);
+        scriptApiNode.setAttribute("src", `./js/baiduApi.js`);
+        scriptComponNode.setAttribute("src", "./public/storeDropdown.js");
+        scriptDateComponNode.setAttribute("src", "./public/dateDropdown.js");
+        // scriptNode.setAttri÷bute("src", `./js/mapLinkSurface/StoreLinkOrder/${jsFile}.js`);
+
+        document.head.appendChild(scriptInitStore);
+        document.head.appendChild(scriptInitBrth);
+
+        document.head.appendChild(scriptComponNode);
+        document.head.appendChild(scriptDateComponNode);
+
+        document.head.appendChild(scriptApiNode);
+
+        window.onload = function(){
+            $(function(){
+                //new一个实例 加载选择器  
+                new dateDropdown('.custom'); 
+                // //默认点击显示
+                // $("#inputT").shijian({
+                //     startYear:2019,
+                //     endYear:2030,
+                // })
+                // $("#inputE").shijian({
+                //     startYear:2019,
+                //     endYear:2030,
+                // })  
+            })
+            baiduMapController.init(markersStoreList,seaPointList).showStoreMarker()
+            baiduMapController.init(markersStoreList,seaPointList).showSeaMarkerPoint()
+            baiduMapController.init(markersStoreList,seaPointList).drawingManagerInit()
+        }
+           
+        
+ </script>
+
+       
+
